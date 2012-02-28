@@ -17,6 +17,12 @@
             <artifactId>test-managed-dependency</artifactId>
             <version>1.0.0</version>
          </dependency>
+         <dependency>
+            <groupId>org.jboss.shrinkwrap.test</groupId>
+            <artifactId>test-managed-ear-dependency</artifactId>
+            <type>ear</type>
+            <version>1.0.0</version>
+         </dependency>
       </dependencies>
    </dependencyManagement>
 

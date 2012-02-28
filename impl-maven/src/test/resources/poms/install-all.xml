@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instagce"
     xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
     <modelVersion>4.0.0</modelVersion>
@@ -339,6 +339,30 @@
                             <classifier>classifier</classifier>
                         </configuration>
                     </execution>
+
+                    <execution>
+                        <id>install-deps-torben</id>
+                        <goals>
+                            <goal>install-file</goal>
+                        </goals>
+                        <phase>install</phase>
+                        <configuration>
+                            <file>${basedir}/../artifacts/test-deps-torben.jar</file>
+                            <pomFile>${basedir}/test-deps-torben.xml</pomFile>
+                        </configuration>
+                    </execution>
+
+                   <execution>
+                       <id>install-managed-ear-dependency</id>
+                       <goals>
+                           <goal>install-file</goal>
+                       </goals>
+                       <phase>install</phase>
+                       <configuration>
+                           <file>${basedir}/../artifacts/test-managed-ear-dependency.ear</file>
+                           <pomFile>${basedir}/test-managed-ear-dependency.xml</pomFile>
+                       </configuration>
+                   </execution>
 
                 </executions>
             </plugin>

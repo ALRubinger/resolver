@@ -18,19 +18,6 @@
  */
 package org.jboss.shrinkwrap.resolver.impl.maven;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Iterator;
-import java.util.LinkedHashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.logging.Logger;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
 import org.apache.maven.model.Repository;
 import org.jboss.shrinkwrap.resolver.api.ResolutionException;
 import org.jboss.shrinkwrap.resolver.api.maven.MavenDependency;
@@ -49,6 +36,19 @@ import org.sonatype.aether.repository.RepositoryPolicy;
 import org.sonatype.aether.util.artifact.ArtifactProperties;
 import org.sonatype.aether.util.artifact.DefaultArtifact;
 import org.sonatype.aether.util.artifact.DefaultArtifactType;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Iterator;
+import java.util.LinkedHashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.logging.Logger;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * An utility class which provides conversion between Maven and Aether objects. It allows creation of Aether object from
@@ -109,10 +109,12 @@ class MavenConverter {
         if (noOfColons == 1) {
             mavenDependency.setVersion("?");
         } else if (noOfColons == 2) {
-            mavenDependency.setVersion(type);
+           mavenDependency.setVersion("?");
+           mavenDependency.setType(type);
         } else if (noOfColons == 3) {
+           mavenDependency.setVersion("?");
             mavenDependency.setType(type);
-            mavenDependency.setVersion(classifier);
+            mavenDependency.setClassifier(classifier);
         } else {
             mavenDependency.setType(type);
             mavenDependency.setClassifier(classifier);

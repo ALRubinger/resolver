@@ -1,7 +1,5 @@
 package org.jboss.shrinkwrap.resolver.impl.maven;
 
-import java.util.Set;
-
 import org.jboss.shrinkwrap.resolver.api.maven.EffectivePomMavenDependencyResolver;
 import org.jboss.shrinkwrap.resolver.api.maven.MavenDependency;
 import org.jboss.shrinkwrap.resolver.api.maven.MavenDependencyResolver;
@@ -9,6 +7,8 @@ import org.jboss.shrinkwrap.resolver.api.maven.MavenResolutionFilter;
 import org.jboss.shrinkwrap.resolver.api.maven.filter.AcceptAllFilter;
 import org.jboss.shrinkwrap.resolver.api.maven.filter.ScopeFilter;
 import org.sonatype.aether.artifact.ArtifactTypeRegistry;
+
+import java.util.Set;
 
 public class EffectivePomMavenDependencyResolverImpl extends AbstractMavenDependencyResolverBase implements
         EffectivePomMavenDependencyResolver {
@@ -60,7 +60,7 @@ public class EffectivePomMavenDependencyResolverImpl extends AbstractMavenDepend
         MavenResolutionFilter configuredFilter = filter.configure(pomDefinedDependencies);
 
         for (MavenDependency candidate : pomDefinedDependencies) {
-            if (configuredFilter.accept(candidate)) {
+           if (configuredFilter.accept(candidate)) {
                 maven.getDependencies().push(candidate);
             }
         }
