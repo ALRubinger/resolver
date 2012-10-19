@@ -56,7 +56,7 @@ public class MiscUnitTestCase {
     public void testFilesResolution() {
         File[] files = Resolvers.use(MavenResolverSystem.class)
             .resolve("org.jboss.shrinkwrap.test:test-deps-a:1.0.0", "org.jboss.shrinkwrap.test:test-deps-c:1.0.0")
-            .withTransitivity().as(File.class);
+            .withTransitivity().asFile();
 
         new ValidationUtil("test-deps-a-1.0.0.jar", "test-deps-c-1.0.0.jar", "test-deps-b-1.0.0.jar").validate(files);
     }

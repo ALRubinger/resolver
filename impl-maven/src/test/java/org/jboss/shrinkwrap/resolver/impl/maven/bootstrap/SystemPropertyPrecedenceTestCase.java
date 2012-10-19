@@ -27,9 +27,9 @@ import org.junit.Test;
 
 /**
  * Test cases for System property precedence in ShrinkWrap configuration
- * 
+ *
  * @author <a href="mailto:kpiwko@redhat.com">Karel Piwko</a>
- * 
+ *
  */
 public class SystemPropertyPrecedenceTestCase {
 
@@ -39,24 +39,25 @@ public class SystemPropertyPrecedenceTestCase {
     public void overrideUserSettings() {
         System.setProperty(MavenSettingsBuilder.ALT_USER_SETTINGS_XML_LOCATION, SETTINGS_XML_PATH);
 
-        File[] files = Maven.resolver().resolve("org.jboss.shrinkwrap.test:test-deps-c:1.0.0")
-                .withTransitivity().as(File.class);
+        File[] files = Maven.resolver().resolve("org.jboss.shrinkwrap.test:test-deps-c:1.0.0").withTransitivity()
+            .asFile();
 
         ValidationUtil.fromDependencyTree(new File("src/test/resources/dependency-trees/test-deps-c.tree")).validate(
-                files);
+            files);
 
         System.clearProperty(MavenSettingsBuilder.ALT_USER_SETTINGS_XML_LOCATION);
     }
 
     @Test
     public void overrideGlobalSettings() {
-        System.setProperty(MavenSettingsBuilder.ALT_GLOBAL_SETTINGS_XML_LOCATION, "target/settings/profiles/settings.xml");
+        System.setProperty(MavenSettingsBuilder.ALT_GLOBAL_SETTINGS_XML_LOCATION,
+            "target/settings/profiles/settings.xml");
 
-        File[] files = Maven.resolver().resolve("org.jboss.shrinkwrap.test:test-deps-c:1.0.0")
-                .withTransitivity().as(File.class);
+        File[] files = Maven.resolver().resolve("org.jboss.shrinkwrap.test:test-deps-c:1.0.0").withTransitivity()
+            .asFile();
 
         ValidationUtil.fromDependencyTree(new File("src/test/resources/dependency-trees/test-deps-c.tree")).validate(
-                files);
+            files);
 
         System.clearProperty(MavenSettingsBuilder.ALT_GLOBAL_SETTINGS_XML_LOCATION);
 
@@ -68,8 +69,8 @@ public class SystemPropertyPrecedenceTestCase {
         try {
             System.setProperty(MavenSettingsBuilder.ALT_MAVEN_OFFLINE, "true");
 
-            Maven.configureResolver().fromFile(SETTINGS_XML_PATH)
-                    .resolve("junit:junit:3.8.2").withTransitivity().as(File.class);
+            Maven.configureResolver().fromFile(SETTINGS_XML_PATH).resolve("junit:junit:3.8.2").withTransitivity()
+                .asFile();
 
             Assert.fail("Artifact junit:junit:3.8.2 should not be present in local repository");
         } finally {
@@ -83,14 +84,14 @@ public class SystemPropertyPrecedenceTestCase {
         System.setProperty(MavenSettingsBuilder.ALT_LOCAL_REPOSITORY_LOCATION, "target/syspropertyrepo");
 
         File[] files = Maven.configureResolver().fromFile(SETTINGS_XML_PATH)
-                .resolve("org.jboss.shrinkwrap.test:test-deps-c:1.0.0")
-                .withTransitivity().as(File.class);
+            .resolve("org.jboss.shrinkwrap.test:test-deps-c:1.0.0").withTransitivity().asFile();
 
         ValidationUtil.fromDependencyTree(new File("src/test/resources/dependency-trees/test-deps-c.tree")).validate(
-                files);
+            files);
 
         // Assert file was downloaded into syspropertyrepo directory
-        File testDep = new File("target/syspropertyrepo/org/jboss/shrinkwrap/test/test-deps-c/1.0.0/test-deps-c-1.0.0.jar");
+        File testDep = new File(
+            "target/syspropertyrepo/org/jboss/shrinkwrap/test/test-deps-c/1.0.0/test-deps-c-1.0.0.jar");
         Assert.assertTrue("Sysproperty local repository took precedence", testDep.exists());
 
         System.clearProperty(MavenSettingsBuilder.ALT_LOCAL_REPOSITORY_LOCATION);

@@ -29,7 +29,7 @@ import org.jboss.shrinkwrap.resolver.api.maven.coordinate.MavenCoordinate;
  *
  * @author <a href="mailto:alr@jboss.org">Andrew Lee Rubinger</a>
  */
-public interface ResolvedArtifactInfo {
+public interface ResolvedArtifactMetadata {
 
     /**
      * Returns the defined coordinate (ie. address) of this resolved artifact.
@@ -77,18 +77,18 @@ public interface ResolvedArtifactInfo {
 
     /**
      * Returns the resolved artifact as a {@link File}; alias for
-     * {@link ResolvedArtifactInfo#getArtifact(FormatProcessor)} passing in argument of {@link FileFormatProcessor}
+     * {@link ResolvedArtifactMetadata#getArtifact(FormatProcessor)} passing in argument of {@link FileFormatProcessor}
      *
      * @return
      */
-    File getArtifact(Class<File> clazz);
+    File getArtifactAsFile();
 
     /**
      * Returns the resolved artifact as an {@link InputStream}; alias for
-     * {@link ResolvedArtifactInfo#getArtifact(FormatProcessor)} passing in argument of
+     * {@link ResolvedArtifactMetadata#getArtifact(FormatProcessor)} passing in argument of
      * {@link InputStreamFormatProcessor}
      *
      * @return
      */
-    InputStream getArtifact(Class<InputStream> clazz);
+    InputStream getArtifactAsInputStream();
 }

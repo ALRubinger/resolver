@@ -21,9 +21,9 @@ import org.jboss.shrinkwrap.resolver.api.Resolvers;
 import org.jboss.shrinkwrap.resolver.api.maven.MavenResolverSystem;
 
 /**
- * ShrinkWrap Maven Resolver. Shorthand convenience API where the call {@link ShrinkWrapMaven#resolver()} is analogous to a more
- * longhand, formal call to {@link Resolvers#use(Class)}, passing {@link MavenResolverSystem} as the argument. Also
- * supports configuration via {@link ShrinkWrapMaven#configureResolver()}.
+ * ShrinkWrap Maven Resolver. Shorthand convenience API where the call {@link ShrinkWrapMaven#resolver()} is analogous
+ * to a more longhand, formal call to {@link Resolvers#use(Class)}, passing {@link MavenResolverSystem} as the argument.
+ * Also supports configuration via {@link ShrinkWrapMaven#configureResolver()}.
  *
  * @author <a href="mailto:alr@jboss.org">Andrew Lee Rubinger</a>
  */

@@ -52,7 +52,8 @@ public final class AcceptScopesStrategy implements MavenResolutionStrategy {
         }
         final Set<ScopeType> allowedScopes = new HashSet<ScopeType>(scopes.length);
         allowedScopes.addAll(Arrays.asList(scopes));
-        this.resolutionFilters = new MavenResolutionFilter[] { new ScopeFilter(allowedScopes.toArray(new ScopeType[] {})) };
+        this.resolutionFilters = new MavenResolutionFilter[] { new ScopeFilter(
+            allowedScopes.toArray(new ScopeType[] {})) };
     }
 
     /**

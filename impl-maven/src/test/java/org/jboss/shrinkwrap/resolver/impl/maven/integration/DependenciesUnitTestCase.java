@@ -68,7 +68,7 @@ public class DependenciesUnitTestCase {
     // FIXME? seems to work now
     public void simpleResolutionWrongArtifact() {
         Resolvers.use(MavenResolverSystem.class).resolve("org.apache.maven.plugins:maven-compiler-plugin:2.3.2")
-            .withTransitivity().as(File.class);
+            .withTransitivity().asFile();
     }
 
     /**
@@ -77,7 +77,7 @@ public class DependenciesUnitTestCase {
     @Test
     public void simpleResolution() {
         File[] files = Resolvers.use(MavenResolverSystem.class).resolve("org.jboss.shrinkwrap.test:test-deps-c:1.0.0")
-            .withTransitivity().as(File.class);
+            .withTransitivity().asFile();
 
         ValidationUtil.fromDependencyTree(new File("src/test/resources/dependency-trees/test-deps-c.tree")).validate(
             files);
@@ -89,7 +89,7 @@ public class DependenciesUnitTestCase {
     @Test
     public void simpleResolutionWithoutTransitivity() {
         File[] files = Maven.resolver().resolve("org.jboss.shrinkwrap.test:test-deps-c:1.0.0").withoutTransitivity()
-            .as(File.class);
+            .asFile();
 
         ValidationUtil.fromDependencyTree(new File("src/test/resources/dependency-trees/test-deps-c-shortcut.tree"))
             .validate(files);
@@ -102,7 +102,7 @@ public class DependenciesUnitTestCase {
     public void simpleResolutionWithCustomSettings() {
 
         File[] files = Maven.configureResolver().fromFile("target/settings/profiles/settings.xml")
-            .resolve("org.jboss.shrinkwrap.test:test-deps-c:1.0.0").withTransitivity().as(File.class);
+            .resolve("org.jboss.shrinkwrap.test:test-deps-c:1.0.0").withTransitivity().asFile();
 
         ValidationUtil.fromDependencyTree(new File("src/test/resources/dependency-trees/test-deps-c.tree")).validate(
             files);
@@ -116,7 +116,7 @@ public class DependenciesUnitTestCase {
 
         // Cannot pass POM file where settings.xml is expected
         Maven.configureResolver().fromFile("target/poms/install-all.xml")
-            .resolve("org.jboss.shrinkwrap.test:test-deps-c:1.0.0").withTransitivity().as(File.class);
+            .resolve("org.jboss.shrinkwrap.test:test-deps-c:1.0.0").withTransitivity().asFile();
     }
 
     /**
@@ -127,7 +127,7 @@ public class DependenciesUnitTestCase {
 
         // this should fail
         Maven.configureResolver().fromFile("src/test/invalid/custom-settings.xml")
-            .resolve("org.jboss.shrinkwrap.test:test-deps-c:1.0.0").withTransitivity().as(File.class);
+            .resolve("org.jboss.shrinkwrap.test:test-deps-c:1.0.0").withTransitivity().asFile();
     }
 
     /**
@@ -138,7 +138,7 @@ public class DependenciesUnitTestCase {
 
         File[] files = Maven.resolver()
             .resolve("org.jboss.shrinkwrap.test:test-deps-c:1.0.0", "org.jboss.shrinkwrap.test:test-deps-g:1.0.0")
-            .withTransitivity().as(File.class);
+            .withTransitivity().asFile();
 
         ValidationUtil.fromDependencyTree(new File("src/test/resources/dependency-trees/test-deps-c+g.tree")).validate(
             files);
@@ -153,7 +153,7 @@ public class DependenciesUnitTestCase {
         final Collection<String> canonicalForms = new ArrayList<String>();
         canonicalForms.add("org.jboss.shrinkwrap.test:test-deps-c:1.0.0");
         canonicalForms.add("org.jboss.shrinkwrap.test:test-deps-g:1.0.0");
-        File[] files = Maven.resolver().resolve(canonicalForms).withTransitivity().as(File.class);
+        File[] files = Maven.resolver().resolve(canonicalForms).withTransitivity().asFile();
 
         ValidationUtil.fromDependencyTree(new File("src/test/resources/dependency-trees/test-deps-c+g.tree")).validate(
             files);
@@ -170,7 +170,7 @@ public class DependenciesUnitTestCase {
             (MavenDependencyExclusion) null));
         dependencies.add(MavenDependencies.createDependency("org.jboss.shrinkwrap.test:test-deps-g:1.0.0", null, false,
             (MavenDependencyExclusion) null));
-        File[] files = Maven.resolver().addDependencies(dependencies).resolve().withTransitivity().as(File.class);
+        File[] files = Maven.resolver().addDependencies(dependencies).resolve().withTransitivity().asFile();
         ValidationUtil.fromDependencyTree(new File("src/test/resources/dependency-trees/test-deps-c+g.tree")).validate(
             files);
     }
@@ -182,7 +182,7 @@ public class DependenciesUnitTestCase {
     public void multipleResolutionSingleCall() {
         File[] files = Maven.resolver()
             .resolve("org.jboss.shrinkwrap.test:test-deps-c:1.0.0", "org.jboss.shrinkwrap.test:test-deps-g:1.0.0")
-            .withTransitivity().as(File.class);
+            .withTransitivity().asFile();
 
         ValidationUtil.fromDependencyTree(new File("src/test/resources/dependency-trees/test-deps-c+g.tree")).validate(
             files);
@@ -195,7 +195,7 @@ public class DependenciesUnitTestCase {
     public void multipleResolutionSingleCallWithoutTransitivity() {
         File[] files = Maven.resolver()
             .resolve("org.jboss.shrinkwrap.test:test-deps-c:1.0.0", "org.jboss.shrinkwrap.test:test-deps-g:1.0.0")
-            .withoutTransitivity().as(File.class);
+            .withoutTransitivity().asFile();
 
         ValidationUtil.fromDependencyTree(new File("src/test/resources/dependency-trees/test-deps-c+g-shortcut.tree"))
             .validate(files);

@@ -54,7 +54,7 @@ public class PomDependenciesUnitTestCase {
     public void parentPomRepositories() {
 
         File[] files = Resolvers.use(MavenResolverSystem.class).loadPomFromFile("target/poms/test-child.xml")
-            .resolve("org.jboss.shrinkwrap.test:test-child:1.0.0").withTransitivity().as(File.class);
+            .resolve("org.jboss.shrinkwrap.test:test-child:1.0.0").withTransitivity().asFile();
 
         ValidationUtil.fromDependencyTree(new File("src/test/resources/dependency-trees/test-child.tree"),
             ScopeType.COMPILE, ScopeType.RUNTIME).validate(files);
@@ -68,7 +68,7 @@ public class PomDependenciesUnitTestCase {
     public void shortcutParentPomRepositories() {
 
         File[] files = Maven.resolver().loadPomFromFile("target/poms/test-child.xml")
-            .resolve("org.jboss.shrinkwrap.test:test-child:1.0.0").withoutTransitivity().as(File.class);
+            .resolve("org.jboss.shrinkwrap.test:test-child:1.0.0").withoutTransitivity().asFile();
 
         ValidationUtil.fromDependencyTree(new File("src/test/resources/dependency-trees/test-child-shortcut.tree"),
             ScopeType.COMPILE).validate(files);
@@ -82,7 +82,7 @@ public class PomDependenciesUnitTestCase {
     public void parentPomRemoteRepositories() {
 
         File[] files = Resolvers.use(MavenResolverSystem.class).loadPomFromFile("target/poms/test-remote-child.xml")
-            .resolve("org.jboss.shrinkwrap.test:test-deps-c:1.0.0").withTransitivity().as(File.class);
+            .resolve("org.jboss.shrinkwrap.test:test-deps-c:1.0.0").withTransitivity().asFile();
 
         ValidationUtil.fromDependencyTree(new File("src/test/resources/dependency-trees/test-deps-c.tree")).validate(
             files);
@@ -96,7 +96,7 @@ public class PomDependenciesUnitTestCase {
     public void shortcutParentPomRemoteRepositories() {
 
         File[] files = Maven.resolver().loadPomFromFile("target/poms/test-remote-child.xml")
-            .resolve("org.jboss.shrinkwrap.test:test-deps-c:1.0.0").withoutTransitivity().as(File.class);
+            .resolve("org.jboss.shrinkwrap.test:test-deps-c:1.0.0").withoutTransitivity().asFile();
 
         ValidationUtil.fromDependencyTree(new File("src/test/resources/dependency-trees/test-deps-c-shortcut.tree"))
             .validate(files);
@@ -109,7 +109,7 @@ public class PomDependenciesUnitTestCase {
     @Test
     public void artifactVersionRetrievalFromPom() {
         File[] files = Resolvers.use(MavenResolverSystem.class).loadPomFromFile("target/poms/test-remote-child.xml")
-            .resolve("org.jboss.shrinkwrap.test:test-deps-c").withTransitivity().as(File.class);
+            .resolve("org.jboss.shrinkwrap.test:test-deps-c").withTransitivity().asFile();
 
         ValidationUtil.fromDependencyTree(new File("src/test/resources/dependency-trees/test-deps-c.tree")).validate(
             files);
@@ -123,7 +123,7 @@ public class PomDependenciesUnitTestCase {
     public void shortcutArtifactVersionRetrievalFromPom() {
 
         File[] files = Maven.resolver().loadPomFromFile("target/poms/test-remote-child.xml")
-            .resolve("org.jboss.shrinkwrap.test:test-deps-c").withoutTransitivity().as(File.class);
+            .resolve("org.jboss.shrinkwrap.test:test-deps-c").withoutTransitivity().asFile();
 
         ValidationUtil.fromDependencyTree(new File("src/test/resources/dependency-trees/test-deps-c-shortcut.tree"))
             .validate(files);
@@ -136,7 +136,7 @@ public class PomDependenciesUnitTestCase {
     @Test
     public void shortcutArtifactVersionRetrievalFromPomAsFile() {
         File file = Maven.resolver().loadPomFromFile("target/poms/test-remote-child.xml")
-            .resolve("org.jboss.shrinkwrap.test:test-deps-c").withoutTransitivity().asSingle(File.class);
+            .resolve("org.jboss.shrinkwrap.test:test-deps-c").withoutTransitivity().asSingleFile();
 
         ValidationUtil.fromDependencyTree(new File("src/test/resources/dependency-trees/test-deps-c-shortcut.tree"))
             .validate(file);
@@ -153,7 +153,7 @@ public class PomDependenciesUnitTestCase {
         final MavenDependency dependency = MavenDependencies.createDependency(
             "org.jboss.shrinkwrap.test:test-deps-c:2.0.0", null, false);
         File[] files = Resolvers.use(MavenResolverSystem.class).loadPomFromFile("target/poms/test-remote-child.xml")
-            .addDependency(dependency).resolve().withTransitivity().as(File.class);
+            .addDependency(dependency).resolve().withTransitivity().asFile();
 
         ValidationUtil.fromDependencyTree(new File("src/test/resources/dependency-trees/test-deps-c-2.tree")).validate(
             files);
@@ -170,7 +170,7 @@ public class PomDependenciesUnitTestCase {
         final MavenDependency dependency = MavenDependencies.createDependency(
             "org.jboss.shrinkwrap.test:test-deps-c:2.0.0", null, false);
         File file = Maven.resolver().loadPomFromFile("target/poms/test-remote-child.xml").addDependency(dependency)
-            .resolve().withoutTransitivity().asSingle(File.class);
+            .resolve().withoutTransitivity().asSingleFile();
 
         ValidationUtil.fromDependencyTree(new File("src/test/resources/dependency-trees/test-deps-c-2-shortcut.tree"))
             .validate(file);
@@ -184,7 +184,7 @@ public class PomDependenciesUnitTestCase {
     public void pomBasedDependencies() {
 
         File[] files = Maven.resolver().loadPomFromFile("target/poms/test-child.xml").importRuntimeDependencies()
-            .as(File.class);
+            .asFile();
 
         ValidationUtil.fromDependencyTree(new File("src/test/resources/dependency-trees/test-child.tree"), false,
             ScopeType.COMPILE, ScopeType.RUNTIME).validate(files);
@@ -199,7 +199,7 @@ public class PomDependenciesUnitTestCase {
     public void pomRemoteBasedDependencies() {
 
         File[] files = Maven.resolver().loadPomFromFile("target/poms/test-remote-child.xml")
-            .importRuntimeDependencies().as(File.class);
+            .importRuntimeDependencies().asFile();
 
         ValidationUtil.fromDependencyTree(new File("src/test/resources/dependency-trees/test-remote-child.tree"),
             false, ScopeType.COMPILE, ScopeType.RUNTIME).validate(files);

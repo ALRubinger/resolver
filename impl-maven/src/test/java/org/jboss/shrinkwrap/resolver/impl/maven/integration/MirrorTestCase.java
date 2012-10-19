@@ -22,7 +22,7 @@ public class MirrorTestCase {
     @Test
     public void enabledMirror() {
         File file = Maven.configureResolver().fromFile("target/settings/profiles/settings-mirror.xml")
-            .resolve("org.jboss.shrinkwrap.test:test-deps-c:1.0.0").withoutTransitivity().asSingle(File.class);
+            .resolve("org.jboss.shrinkwrap.test:test-deps-c:1.0.0").withoutTransitivity().asSingleFile();
 
         Assert.assertEquals("The file is packaged as test-deps-c-1.0.0.jar", "test-deps-c-1.0.0.jar", file.getName());
     }

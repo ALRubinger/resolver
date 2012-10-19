@@ -38,7 +38,7 @@ import org.jboss.shrinkwrap.resolver.api.formatprocessor.FileFormatProcessor;
 import org.jboss.shrinkwrap.resolver.api.formatprocessor.FormatProcessor;
 import org.jboss.shrinkwrap.resolver.api.formatprocessor.InputStreamFormatProcessor;
 import org.jboss.shrinkwrap.resolver.api.maven.MavenFormatStage;
-import org.jboss.shrinkwrap.resolver.api.maven.ResolvedArtifactInfo;
+import org.jboss.shrinkwrap.resolver.api.maven.ResolvedArtifactMetadata;
 import org.jboss.shrinkwrap.resolver.impl.maven.util.IOUtil;
 import org.jboss.shrinkwrap.resolver.impl.maven.util.Validate;
 import org.sonatype.aether.artifact.Artifact;
@@ -103,25 +103,43 @@ public class MavenFormatStageImpl implements MavenFormatStage {
         this.artifacts = artifacts;
     }
 
+    /**
+     * {@inheritDoc}
+     *
+     * @see org.jboss.shrinkwrap.resolver.api.FormatStage#asFile()
+     */
     @Override
-    public final File[] as(final Class<File> type) throws IllegalArgumentException {
+    public final File[] asFile() {
         return as(File.class, FileFormatProcessor.INSTANCE);
     }
 
+    /**
+     * {@inheritDoc}
+     *
+     * @see org.jboss.shrinkwrap.resolver.api.FormatStage#asInputStream()
+     */
     @Override
-    public final InputStream[] as(final Class<InputStream> type) throws IllegalArgumentException {
+    public final InputStream[] asInputStream() {
         return as(InputStream.class, InputStreamFormatProcessor.INSTANCE);
     }
 
+    /**
+     * {@inheritDoc}
+     *
+     * @see org.jboss.shrinkwrap.resolver.api.FormatStage#asSingleFile()
+     */
     @Override
-    public final File asSingle(final Class<File> type) throws IllegalArgumentException, NonUniqueResultException,
-        NoResolvedResultException {
+    public final File asSingleFile() throws NonUniqueResultException, NoResolvedResultException {
         return asSingle(File.class, FileFormatProcessor.INSTANCE);
     }
 
+    /**
+     * {@inheritDoc}
+     *
+     * @see org.jboss.shrinkwrap.resolver.api.FormatStage#asSingleInputStream()
+     */
     @Override
-    public final InputStream asSingle(final Class<InputStream> type) throws IllegalArgumentException,
-        NonUniqueResultException, NoResolvedResultException {
+    public final InputStream asSingleInputStream() throws NonUniqueResultException, NoResolvedResultException {
         return asSingle(InputStream.class, InputStreamFormatProcessor.INSTANCE);
     }
 
@@ -188,14 +206,24 @@ public class MavenFormatStageImpl implements MavenFormatStage {
         return collection.iterator().next();
     }
 
+    /**
+     * {@inheritDoc}
+     *
+     * @see org.jboss.shrinkwrap.resolver.api.maven.MavenFormatStage#asResolvedArtifactMetadata()
+     */
     @Override
-    public final ResolvedArtifactInfo[] as(final Class<ResolvedArtifactInfo> type) throws IllegalArgumentException {
+    public final ResolvedArtifactMetadata[] asResolvedArtifactMetadata() {
         throw new UnsupportedOperationException();
     }
 
+    /**
+     * {@inheritDoc}
+     *
+     * @see org.jboss.shrinkwrap.resolver.api.maven.MavenFormatStage#asSingleResolvedArtifactMetadata()
+     */
     @Override
-    public final ResolvedArtifactInfo asSingle(final Class<ResolvedArtifactInfo> type) throws IllegalArgumentException,
-        NonUniqueResultException, NoResolvedResultException {
+    public final ResolvedArtifactMetadata asSingleResolvedArtifactMetadata() throws NonUniqueResultException,
+        NoResolvedResultException {
         throw new UnsupportedOperationException();
     }
 

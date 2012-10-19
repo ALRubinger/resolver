@@ -33,53 +33,39 @@ public interface FormatStage {
      * Formats the resultant artifacts as an array of {@link File}s. If nothing matches resolution, an empty array will
      * be returned.
      *
-     * @param type
      * @return
-     * @throws IllegalArgumentException
-     *             If the type is not specified
      */
-    File[] as(Class<File> type) throws IllegalArgumentException;
+    File[] asFile();
 
     /**
      * Formats the resultant artifact as a {@link File}; assumes a single artifact is returned from resolution.
      *
-     * @param type
      * @return
-     * @throws IllegalArgumentException
-     *             If the type is not specified
      * @throws NonUniqueResultException
      *             If the resolution resulted in more than one result
      * @throws NoResolvedResultException
      *             If the resolution did not yield any result
      */
-    File asSingle(Class<File> type) throws IllegalArgumentException, NonUniqueResultException,
-        NoResolvedResultException;
+    File asSingleFile() throws NonUniqueResultException, NoResolvedResultException;
 
     /**
      * Formats the resultant artifact as an {@link InputStream}. If nothing matches resolution, an empty array will be
      * returned.
      *
-     * @param type
      * @return
-     * @throws IllegalArgumentException
-     *             If the type is not specified
      */
-    InputStream[] as(Class<InputStream> type) throws IllegalArgumentException;
+    InputStream[] asInputStream();
 
     /**
      * Formats the resultant artifact as an {@link InputStream}; assumes a single artifact is returned from resolution.
      *
-     * @param type
      * @return
-     * @throws IllegalArgumentException
-     *             If the type is not specified
      * @throws NonUniqueResultException
      *             If the resolution resulted in more than one result
      * @throws NoResolvedResultException
      *             If the resolution did not yield any result
      */
-    InputStream asSingle(Class<InputStream> type) throws IllegalArgumentException, NonUniqueResultException,
-        NoResolvedResultException;
+    InputStream asSingleInputStream() throws NonUniqueResultException, NoResolvedResultException;
 
     /**
      * Formats the resultant artifact as the specified type using the specified {@link FormatProcessor}. If nothing

@@ -34,7 +34,7 @@ public class PluginIntegrationTestCase {
     public void loadCurrentVersion() {
         PomEquippedResolveStage resolver = Maven.configureResolverViaPlugin();
 
-        File[] files = resolver.resolve("org.sonatype.aether:aether-api").withTransitivity().as(File.class);
+        File[] files = resolver.resolve("org.sonatype.aether:aether-api").withTransitivity().asFile();
         new ValidationUtil("aether-api").validate(files);
     }
 
@@ -44,7 +44,7 @@ public class PluginIntegrationTestCase {
     public void strictlyLoadTestDependencies() {
         PomEquippedResolveStage resolver = Maven.configureResolverViaPlugin();
 
-        final File[] files = resolver.importRuntimeDependencies(NonTransitiveStrategy.INSTANCE).as(File.class);
+        final File[] files = resolver.importRuntimeDependencies(NonTransitiveStrategy.INSTANCE).asFile();
         new ValidationUtil("maven-settings-builder", "plexus-interpolation", "maven-settings", "aether-util",
             "aether-spi", "maven-model-builder", "wagon-provider-api", "plexus-cipher", "maven-repository-metadata",
             "shrinkwrap-resolver-api-maven", "maven-model", "jsoup", "sisu-inject-plexus", "maven-aether-provider",

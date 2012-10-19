@@ -56,8 +56,8 @@ public class ClasspathWorkspaceReaderTestCase {
 
         final PomEquippedResolveStage resolver = Maven.resolver().loadPomFromFile("pom.xml");
         // Ensure we can disable ClassPath resolution
-        resolver.resolve("org.jboss.shrinkwrap.resolver:shrinkwrap-resolver-api-maven")
-            .withClassPathResolution(false).withoutTransitivity().asSingle(File.class);
+        resolver.resolve("org.jboss.shrinkwrap.resolver:shrinkwrap-resolver-api-maven").withClassPathResolution(false)
+            .withoutTransitivity().asSingleFile();
         Assert.fail("Reactor is not activated, resolution of another module should fail.");
     }
 
@@ -67,9 +67,8 @@ public class ClasspathWorkspaceReaderTestCase {
         // Ensure we can use ClassPath resolution to get the results of the "current" build
         final PomEquippedResolveStage resolver = Maven.resolver().loadPomFromFile("pom.xml");
         File[] files = resolver.resolve("org.jboss.shrinkwrap.resolver:shrinkwrap-resolver-api-maven")
-            .withTransitivity().as(File.class);
-        new ValidationUtil("shrinkwrap-resolver-api", "shrinkwrap-resolver-api-maven")
-            .validate(files);
+            .withTransitivity().asFile();
+        new ValidationUtil("shrinkwrap-resolver-api", "shrinkwrap-resolver-api-maven").validate(files);
     }
 
 }

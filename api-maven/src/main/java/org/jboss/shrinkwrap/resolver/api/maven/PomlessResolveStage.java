@@ -22,8 +22,7 @@ package org.jboss.shrinkwrap.resolver.api.maven;
  * @author <a href="mailto:alr@jboss.org">Andrew Lee Rubinger</a>
  * @author <a href="mailto:kpiwko@redhat.com">Karel Piwko</a>
  */
-public interface PomlessResolveStage
-    extends
+public interface PomlessResolveStage extends
     PomlessResolveStageBase<PomEquippedResolveStage, PomlessResolveStage, MavenStrategyStage, MavenFormatStage> {
 
 }

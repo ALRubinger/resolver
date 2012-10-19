@@ -17,8 +17,8 @@
 package org.jboss.shrinkwrap.resolver.api.maven;
 
 /**
- * Indicates that the current environment does not support {@link PomlessResolveStageBase#loadPomViaPlugin()}
- * ; likely this option has been selected while running outside the control of the ShrinkWrap Resolver Maven Plugin.
+ * Indicates that the current environment does not support {@link PomlessResolveStageBase#loadPomViaPlugin()} ; likely
+ * this option has been selected while running outside the control of the ShrinkWrap Resolver Maven Plugin.
  *
  * @author <a href="mailto:alr@jboss.org">Andrew Lee Rubinger</a>
  */

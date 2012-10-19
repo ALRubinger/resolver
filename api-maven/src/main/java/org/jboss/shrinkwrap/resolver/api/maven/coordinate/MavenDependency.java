@@ -29,24 +29,23 @@ import org.jboss.shrinkwrap.resolver.api.maven.ScopeType;
 public interface MavenDependency extends MavenCoordinate {
 
     /**
-     * Returns the exclusions defined for this {@link MavenDependency} in an immutable, read-only view. If no
-     * exclusions are defined, an empty {@link Set} will be returned.
+     * Returns the exclusions defined for this {@link MavenDependency} in an immutable, read-only view. If no exclusions
+     * are defined, an empty {@link Set} will be returned.
      *
      * @return
      */
     Set<MavenDependencyExclusion> getExclusions();
 
     /**
-     * Returns the scope for this {@link MavenDependency}. Never returns null; if no scope has been
-     * explicitly-defined, the default {@link ScopeType#COMPILE} will be returned.
+     * Returns the scope for this {@link MavenDependency}. Never returns null; if no scope has been explicitly-defined,
+     * the default {@link ScopeType#COMPILE} will be returned.
      *
      * @return
      */
     ScopeType getScope();
 
     /**
-     * Returns whether or not this {@link MavenDependency} has been marked as optional; defaults to
-     * <code>false</code>
+     * Returns whether or not this {@link MavenDependency} has been marked as optional; defaults to <code>false</code>
      *
      * @return
      */

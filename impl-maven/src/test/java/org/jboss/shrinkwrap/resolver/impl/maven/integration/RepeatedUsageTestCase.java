@@ -44,12 +44,12 @@ public class RepeatedUsageTestCase {
             .fromFile("target/settings/profiles/settings.xml").loadPomFromFile("target/poms/test-bom.xml");
 
         final File[] firstRequest = resolver.resolve("org.jboss.shrinkwrap.test:test-deps-a").withoutTransitivity()
-            .as(File.class);
+            .asFile();
 
         new ValidationUtil("test-deps-a-1.0.0.jar").validate(firstRequest);
 
         final File[] secondRequest = resolver.resolve("org.jboss.shrinkwrap.test:test-deps-d").withoutTransitivity()
-            .as(File.class);
+            .asFile();
 
         new ValidationUtil("test-deps-d-1.0.0.jar").validate(secondRequest);
     }

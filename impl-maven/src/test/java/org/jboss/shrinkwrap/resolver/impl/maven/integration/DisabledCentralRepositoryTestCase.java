@@ -46,7 +46,7 @@ public class DisabledCentralRepositoryTestCase {
     public void control() {
         // This should resolve from Maven Central
         final File file = Maven.resolver().loadPomFromFile("pom.xml").resolve("junit:junit")
-            .withClassPathResolution(false).withTransitivity().asSingle(File.class);
+            .withClassPathResolution(false).withTransitivity().asSingleFile();
         // Ensure we get JUnit
         new ValidationUtil("junit").validate(file);
         final File localRepo = new File(FAKE_REPO);
@@ -61,7 +61,7 @@ public class DisabledCentralRepositoryTestCase {
     public void shouldHaveCentralMavenRepositoryDisabled() {
         // This should NOT resolve from Maven Central
         Maven.resolver().loadPomFromFile("pom.xml").resolve("junit:junit").withClassPathResolution(false)
-            .withMavenCentralRepo(false).withTransitivity().asSingle(File.class);
+            .withMavenCentralRepo(false).withTransitivity().asSingleFile();
     }
 
 }

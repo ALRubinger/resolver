@@ -70,7 +70,7 @@ public class OfflineRepositoryTestCase {
     @Test(expected = NoResolvedResultException.class)
     public void searchJunitOnOffineSettingsTest() {
         Maven.configureResolver().fromFile("target/settings/profiles/settings-offline.xml")
-            .resolve("junit:junit:3.8.2").withTransitivity().as(File.class);
+            .resolve("junit:junit:3.8.2").withTransitivity().asFile();
 
         Assert.fail("Artifact junit:junit:3.8.2 should not be present in local repository");
     }
@@ -86,7 +86,7 @@ public class OfflineRepositoryTestCase {
 
         // Precondition; we can resolve when connected
         final File file = Maven.configureResolver().fromFile(settingsFile).resolve(artifactWhichShouldNotResolve)
-            .withTransitivity().asSingle(File.class);
+            .withTransitivity().asSingleFile();
         new ValidationUtil("junit-3.8.2.jar").validate(file);
 
         // Manually cleanup; we're gonna run a test again
@@ -96,7 +96,7 @@ public class OfflineRepositoryTestCase {
         boolean gotExpectedException = false;
         try {
             Maven.configureResolver().fromFile(settingsFile).resolve(artifactWhichShouldNotResolve).offline()
-                .withTransitivity().asSingle(File.class);
+                .withTransitivity().asSingleFile();
         } catch (final NoResolvedResultException nre) {
             gotExpectedException = true;
         }
@@ -112,7 +112,7 @@ public class OfflineRepositoryTestCase {
         System.setProperty(MavenSettingsBuilder.ALT_MAVEN_OFFLINE, "true");
         try {
             Maven.configureResolver().fromFile("target/settings/profiles/settings-jetty.xml")
-                .resolve("junit:junit:3.8.2").withTransitivity().as(File.class);
+                .resolve("junit:junit:3.8.2").withTransitivity().asFile();
             Assert.fail("Artifact junit:junit:3.8.2 should not be present in local repository");
         } finally {
             System.clearProperty(MavenSettingsBuilder.ALT_MAVEN_OFFLINE);
@@ -126,7 +126,7 @@ public class OfflineRepositoryTestCase {
             System.setProperty(MavenSettingsBuilder.ALT_MAVEN_OFFLINE, "true");
 
             Maven.configureResolver().fromFile("target/settings/profiles/settings-jetty.xml")
-                .resolve("org.jboss.shrinkwrap.test:test-deps-i:1.0.0").withTransitivity().asSingle(File.class);
+                .resolve("org.jboss.shrinkwrap.test:test-deps-i:1.0.0").withTransitivity().asSingleFile();
 
             Assert.fail("Artifact org.jboss.shrinkwrap.test:test-deps-i:1.0.0 is not present in local repository");
 
@@ -140,14 +140,14 @@ public class OfflineRepositoryTestCase {
         System.clearProperty(MavenSettingsBuilder.ALT_MAVEN_OFFLINE);
 
         Maven.configureResolver().fromFile("target/settings/profiles/settings-jetty.xml")
-            .resolve("org.jboss.shrinkwrap.test:test-deps-i:1.0.0").withTransitivity().asSingle(File.class);
+            .resolve("org.jboss.shrinkwrap.test:test-deps-i:1.0.0").withTransitivity().asSingleFile();
         shutdownHttpServer(server);
 
         // offline with artifact in local repository
         System.setProperty(MavenSettingsBuilder.ALT_MAVEN_OFFLINE, "true");
 
         Maven.configureResolver().fromFile("target/settings/profiles/settings-jetty.xml")
-            .resolve("org.jboss.shrinkwrap.test:test-deps-i:1.0.0").withTransitivity().asSingle(File.class);
+            .resolve("org.jboss.shrinkwrap.test:test-deps-i:1.0.0").withTransitivity().asSingleFile();
 
         System.clearProperty(MavenSettingsBuilder.ALT_MAVEN_OFFLINE);
     }

@@ -29,29 +29,23 @@ import org.jboss.shrinkwrap.resolver.api.formatprocessor.FormatProcessor;
  */
 public interface MavenFormatStage extends FormatStage {
     /**
-     * Formats the resultant artifacts as an array of {@link ResolvedArtifactInfo}s. If nothing matches resolution, an
-     * empty array will be returned.
+     * Formats the resultant artifacts as an array of {@link ResolvedArtifactMetadata}s. If nothing matches resolution,
+     * an empty array will be returned.
      *
-     * @param type
      * @return
-     * @throws IllegalArgumentException
-     *             If the type is not specified
      */
-    ResolvedArtifactInfo[] as(Class<ResolvedArtifactInfo> type) throws IllegalArgumentException;
+    ResolvedArtifactMetadata[] asResolvedArtifactMetadata();
 
     /**
-     * Formats the resultant artifact as a {@link ResolvedArtifactInfo}; assumes a single artifact is returned from
+     * Formats the resultant artifact as a {@link ResolvedArtifactMetadata}; assumes a single artifact is returned from
      * resolution.
      *
-     * @param type
      * @return
-     * @throws IllegalArgumentException
-     *             If the type is not specified
      * @throws NonUniqueResultException
      *             If the resolution resulted in more than one result
      * @throws NoResolvedResultException
      *             If the resolution did not yield any result
      */
-    ResolvedArtifactInfo asSingle(Class<ResolvedArtifactInfo> type) throws IllegalArgumentException,
-        NonUniqueResultException, NoResolvedResultException;
+    ResolvedArtifactMetadata asSingleResolvedArtifactMetadata() throws NonUniqueResultException,
+        NoResolvedResultException;
 }

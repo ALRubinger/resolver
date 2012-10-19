@@ -41,7 +41,7 @@ public class ArtifactDependenciesTestCase {
     @Test
     public void pomBasedArtifactConfiguredFromFile() {
         File[] files = Maven.configureResolver().fromFile(new File("target/settings/profiles/settings.xml"))
-            .resolve("org.jboss.shrinkwrap.test:test-parent:pom:1.0.0").withTransitivity().as(File.class);
+            .resolve("org.jboss.shrinkwrap.test:test-parent:pom:1.0.0").withTransitivity().asFile();
 
         ValidationUtil.fromDependencyTree(new File("src/test/resources/dependency-trees/test-parent.tree"),
             ScopeType.COMPILE, ScopeType.RUNTIME).validate(files);
@@ -51,7 +51,7 @@ public class ArtifactDependenciesTestCase {
     public void pomBasedArtifactConfiguredFromFileAsString() {
 
         File[] files = Maven.configureResolver().fromFile("target/settings/profiles/settings.xml")
-            .resolve("org.jboss.shrinkwrap.test:test-parent:pom:1.0.0").withTransitivity().as(File.class);
+            .resolve("org.jboss.shrinkwrap.test:test-parent:pom:1.0.0").withTransitivity().asFile();
 
         ValidationUtil.fromDependencyTree(new File("src/test/resources/dependency-trees/test-parent.tree"),
             ScopeType.COMPILE, ScopeType.RUNTIME).validate(files);
@@ -61,7 +61,7 @@ public class ArtifactDependenciesTestCase {
     public void pomBasedArtifactLocatedInClassPath() {
 
         File[] files = Maven.configureResolver().fromClassloaderResource("profiles/settings3.xml")
-            .loadPomFromClassLoaderResource("poms/test-parent.xml").importRuntimeDependencies().as(File.class);
+            .loadPomFromClassLoaderResource("poms/test-parent.xml").importRuntimeDependencies().asFile();
 
         ValidationUtil.fromDependencyTree(new File("src/test/resources/dependency-trees/test-parent.tree"),
             ScopeType.COMPILE, ScopeType.RUNTIME).validate(files);
@@ -74,7 +74,7 @@ public class ArtifactDependenciesTestCase {
 
         File[] files = Maven.configureResolver().fromClassloaderResource("org/jboss/shrinkwrap/profiles/settings3.xml")
             .loadPomFromClassLoaderResource("org/jboss/shrinkwrap/poms/test-parent.xml").importRuntimeDependencies()
-            .as(File.class);
+            .asFile();
 
         ValidationUtil.fromDependencyTree(new File("src/test/resources/dependency-trees/test-parent.tree"),
             ScopeType.COMPILE, ScopeType.RUNTIME).validate(files);

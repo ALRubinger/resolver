@@ -74,14 +74,14 @@ public class RepositoryAuthTestCase {
     public void searchRemoteWithWrongPassword() throws Exception {
         // Configure with wrong password and expect to fail
         Maven.configureResolver().fromFile("target/settings/profiles/settings-wrongauth.xml")
-            .resolve("org.jboss.shrinkwrap.test:test-deps-i:1.0.0").withoutTransitivity().asSingle(File.class);
+            .resolve("org.jboss.shrinkwrap.test:test-deps-i:1.0.0").withoutTransitivity().asSingleFile();
     }
 
     @Test
     public void searchRemoteWithCorrectPassword() throws Exception {
         // Configure with correct password and expect to pass
         final File resolved = Maven.configureResolver().fromFile("target/settings/profiles/settings-auth.xml")
-            .resolve("org.jboss.shrinkwrap.test:test-deps-i:1.0.0").withoutTransitivity().asSingle(File.class);
+            .resolve("org.jboss.shrinkwrap.test:test-deps-i:1.0.0").withoutTransitivity().asSingleFile();
         new ValidationUtil("test-deps-i").validate(resolved);
     }
 
