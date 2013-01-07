@@ -41,12 +41,13 @@ import org.junit.Test;
 public class DependencyScopesTestCase {
     private static final ScopeType[] SCOPES = new ScopeType[]{ScopeType.COMPILE, ScopeType.PROVIDED, ScopeType.RUNTIME};
     private static final SingleScopedStrategy SCOPED_STRATEGY = new SingleScopedStrategy(SCOPES);
+    private static final String SETTINGS_XML = "target/settings/profiles/settings.xml";
 
     @Test
     public void testProvidedDependency() throws Exception {
         final String coordinates = "org.jboss.xnio:xnio-api:3.1.0.Beta7";
 
-        final MavenStrategyStage mss = getResolver(getDefaultMavenSettings()).resolve(coordinates);
+        final MavenStrategyStage mss = Maven.configureResolver().fromFile(SETTINGS_XML).resolve(coordinates);
         final MavenFormatStage mfs = mss.using(SCOPED_STRATEGY);
         final MavenResolvedArtifact info = mfs.asSingleResolvedArtifact();
 
@@ -56,37 +57,6 @@ public class DependencyScopesTestCase {
         // http://search.maven.org/remotecontent?filepath=org/jboss/xnio/xnio-api/3.1.0.Beta7/xnio-api-3.1.0.Beta7.pom
         // there should be org.jboss.logging:jboss-logging
         Assert.assertTrue(dependencies.length > 0);
-    }
-
-    protected static String getDefaultMavenSettings() {
-        String path = System.getProperty("maven.repo.local");
-        if (path != null) {
-            File file = new File(path, "settings.xml");
-            if (file.exists())
-                return file.getAbsolutePath();
-        }
-
-        path = System.getProperty("user.home");
-        if (path != null) {
-            File file = new File(path, ".m2/settings.xml");
-            if (file.exists())
-                return file.getAbsolutePath();
-        }
-
-        path = System.getenv("M2_HOME");
-        if (path != null) {
-            File file = new File(path, "conf/settings.xml");
-            if (file.exists())
-                return file.getAbsolutePath();
-        }
-
-        return "classpath:settings.xml";
-    }
-
-    protected MavenResolverSystem getResolver(String settingsXml) {
-        if (settingsXml.startsWith("classpath:"))
-            return Maven.configureResolver().fromClassloaderResource(settingsXml.substring(10));
-        return Maven.configureResolver().fromFile(settingsXml);
     }
 
     private static class SingleScopedStrategy implements MavenResolutionStrategy {
@@ -102,7 +72,8 @@ public class DependencyScopesTestCase {
                 final int index = i;
                 filters[i] = new MavenResolutionFilter() {
                     public boolean accepts(MavenDependency dependency, List<MavenDependency> dependenciesForResolution) {
-                        return scopesFilters[index].accepts(dependency, dependenciesForResolution) && NonTransitiveFilter.INSTANCE.accepts(dependency, dependenciesForResolution);
+//                        return scopesFilters[index].accepts(dependency, dependenciesForResolution) && NonTransitiveFilter.INSTANCE.accepts(dependency, dependenciesForResolution);
+                        return true;
                     }
                 };
             }
