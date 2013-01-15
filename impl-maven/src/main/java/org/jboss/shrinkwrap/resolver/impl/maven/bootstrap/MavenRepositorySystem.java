@@ -34,6 +34,7 @@ import org.sonatype.aether.RepositorySystem;
 import org.sonatype.aether.RepositorySystemSession;
 import org.sonatype.aether.collection.CollectRequest;
 import org.sonatype.aether.collection.DependencyCollectionException;
+import org.sonatype.aether.collection.DependencySelector;
 import org.sonatype.aether.connector.wagon.WagonProvider;
 import org.sonatype.aether.connector.wagon.WagonRepositoryConnectorFactory;
 import org.sonatype.aether.graph.Dependency;
@@ -46,6 +47,10 @@ import org.sonatype.aether.resolution.DependencyRequest;
 import org.sonatype.aether.resolution.DependencyResolutionException;
 import org.sonatype.aether.resolution.DependencyResult;
 import org.sonatype.aether.spi.connector.RepositoryConnectorFactory;
+import org.sonatype.aether.util.graph.selector.AndDependencySelector;
+import org.sonatype.aether.util.graph.selector.ExclusionDependencySelector;
+import org.sonatype.aether.util.graph.selector.OptionalDependencySelector;
+import org.sonatype.aether.util.graph.selector.ScopeDependencySelector;
 
 /**
  * Abstraction of the repository system for purposes of dependency resolution used by Maven
@@ -74,6 +79,13 @@ public class MavenRepositorySystem {
         MavenRepositorySystemSession session = new MavenRepositorySystemSession();
 
         MavenManagerBuilder builder = new MavenManagerBuilder(system, settings);
+
+        // THIS IS THE DEFAULT, which filters out provided and test when transitive. We need a hook to NOT filter these
+        // out if the user wants to get them.
+        final DependencySelector depSelector = new AndDependencySelector(
+            new ScopeDependencySelector("provided", "test"), new OptionalDependencySelector(),
+            new ExclusionDependencySelector());
+        session.setDependencySelector(depSelector);
 
         session.setLocalRepositoryManager(builder.localRepositoryManager());
         session.setWorkspaceReader(builder.workspaceReader());
