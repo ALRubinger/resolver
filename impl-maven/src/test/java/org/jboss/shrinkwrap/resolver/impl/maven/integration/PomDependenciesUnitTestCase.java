@@ -197,22 +197,33 @@ public class PomDependenciesUnitTestCase {
     }
     
     /**
-     * Tests resolution of dependencies for a POM file with parent on local file system, 
+     * Tests resolution of runtime only dependencies for a POM file with parent on local file system, 
      * via test-scoped dep on a depchain POM
      *
      * SHRINKRES-123
      */
     @Test
-    public void pomBasedDependenciesImportScopeInDepMgmt() {
+    public void pomBasedDependenciesImportScopeInDepMgmtRuntimeOnly() {
 
         final File[] files = Maven.resolver().loadPomFromFile("target/poms/test-testdeps-via-bom-and-depchain.xml")
             .importRuntimeDependencies().as(File.class);
         
-        for(final File file: files){
-            System.out.println(file.getName());
-        }
-        
         Assert.assertEquals("No dependencies should be returned", 0, files.length);
+    }
+    
+    /**
+     * Tests resolution of runtime and test dependencies for a POM file with parent on local file system, 
+     * via test-scoped dep on a depchain POM
+     *
+     * SHRINKRES-123
+     */
+    @Test
+    public void pomBasedDependenciesImportScopeInDepMgmtAllScopes() {
+
+        final File[] files = Maven.resolver().loadPomFromFile("target/poms/test-testdeps-via-bom-and-depchain.xml")
+            .importRuntimeAndTestDependencies().as(File.class);
+        
+        Assert.assertEquals("3 dependencies should be returned", 3, files.length);
     }
 
     /**
