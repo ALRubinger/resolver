@@ -223,7 +223,7 @@ public class PomDependenciesUnitTestCase {
         final File[] files = Maven.resolver().loadPomFromFile("target/poms/test-testdeps-via-bom-and-depchain.xml")
             .importRuntimeAndTestDependencies().as(File.class);
         
-        Assert.assertEquals("3 dependencies should be returned", 3, files.length);
+        new ValidationUtil("test-dependency", "test-deps-a", "test-deps-b").validate(files);
     }
 
     /**
