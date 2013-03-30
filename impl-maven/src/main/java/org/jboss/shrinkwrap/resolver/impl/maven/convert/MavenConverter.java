@@ -149,8 +149,11 @@ public class MavenConverter {
         final MavenCoordinate coordinate = MavenCoordinates.createCoordinate(artifact.getGroupId(),
             artifact.getArtifactId(), artifact.getVersion(), PackagingType.of(artifact.getExtension()),
             artifact.getClassifier());
+        // SHRINKRES-123 Allow for depMgt explicitly not setting scope
+        String resolvedScope = dependency.getScope();
+        resolvedScope = resolvedScope == null ? ScopeType.UNDEFINED.toString() : resolvedScope;
         final MavenDependency result = MavenDependencies.createDependency(coordinate,
-            ScopeType.fromScopeType(dependency.getScope()), dependency.isOptional(),
+            ScopeType.fromScopeType(resolvedScope), dependency.isOptional(),
             exclusions.toArray(TYPESAFE_EXCLUSIONS_ARRAY));
         return result;
     }

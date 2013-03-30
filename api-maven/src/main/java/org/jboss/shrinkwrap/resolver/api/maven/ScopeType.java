@@ -30,7 +30,7 @@ import org.jboss.shrinkwrap.resolver.api.maven.coordinate.MavenDependency;
  * @author <a href="mailto:kpiwko@redhat.com">Karel Piwko</a>
  */
 public enum ScopeType {
-    COMPILE("compile"), PROVIDED("provided"), RUNTIME("runtime"), TEST("test"), SYSTEM("system"), IMPORT("import");
+    COMPILE("compile"), PROVIDED("provided"), RUNTIME("runtime"), TEST("test"), SYSTEM("system"), IMPORT("import"), UNDEFINED("undefined");
     private final String value;
 
     ScopeType(final String value) {
@@ -61,11 +61,13 @@ public enum ScopeType {
     public static ScopeType fromScopeType(String scopeName) throws IllegalArgumentException {
 
         if (scopeName == null || scopeName.length() == 0) {
-            log.log(Level.FINEST, "Empty scope was replaced with default {0}", COMPILE.value);
+            if (log.isLoggable(Level.FINEST)) {
+                log.log(Level.FINEST, "Empty scope was replaced with default {0}", COMPILE.value);
+            }
             return COMPILE;
         }
 
-        ScopeType scope = SCOPE_NAME_CACHE.get(scopeName);
+        final ScopeType scope = SCOPE_NAME_CACHE.get(scopeName);
         if (scope == null) {
             throw new IllegalArgumentException("Scope type " + scopeName + " is not supported.");
         }

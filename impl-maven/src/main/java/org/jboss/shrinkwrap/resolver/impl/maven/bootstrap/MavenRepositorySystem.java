@@ -29,6 +29,7 @@ import org.apache.maven.repository.internal.MavenRepositorySystemSession;
 import org.apache.maven.repository.internal.MavenServiceLocator;
 import org.apache.maven.settings.Settings;
 import org.jboss.shrinkwrap.resolver.api.maven.MavenWorkingSession;
+import org.jboss.shrinkwrap.resolver.api.maven.ScopeType;
 import org.jboss.shrinkwrap.resolver.api.maven.coordinate.MavenDependency;
 import org.jboss.shrinkwrap.resolver.api.maven.filter.MavenResolutionFilter;
 import org.jboss.shrinkwrap.resolver.impl.maven.convert.MavenConverter;
@@ -109,6 +110,30 @@ public class MavenRepositorySystem {
     public Collection<ArtifactResult> resolveDependencies(final RepositorySystemSession repoSession,
             final MavenWorkingSession swrSession, final CollectRequest request, final MavenResolutionFilter[] filters)
             throws DependencyResolutionException {
+
+        /*
+         * SHRINKRES-123
+         *
+         * Because dependencyManagement may not have defined a scope, we must remove our flag that this depMgt
+         * declaration has explicitly undefined scope, and set the scope to null for Aether.
+         */
+        final List<Dependency> depMgts = request.getManagedDependencies();
+        final List<Dependency> depMgtToRemove = new ArrayList<Dependency>();
+        final List<Dependency> depMgtToAdd = new ArrayList<Dependency>();
+        for (final Dependency depMgt : depMgts) {
+            if (ScopeType.UNDEFINED.toString().equals(depMgt.getScope())) {
+                final Dependency newDepMgt = depMgt.setScope(null);
+                depMgtToRemove.add(depMgt);
+                depMgtToAdd.add(newDepMgt);
+            }
+        }
+        for (final Dependency dep : depMgtToRemove) {
+            depMgts.remove(dep);
+        }
+        for (final Dependency dep : depMgtToAdd) {
+            depMgts.add(dep);
+        }
+
         final DependencyRequest depRequest = new DependencyRequest(request, new MavenResolutionFilterWrap(filters,
                 Collections.unmodifiableList(new ArrayList<MavenDependency>(swrSession.getDependenciesForResolution()))));
         DependencyResult result = system.resolveDependencies(repoSession, depRequest);

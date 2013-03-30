@@ -18,6 +18,8 @@ package org.jboss.shrinkwrap.resolver.impl.maven.integration;
 
 import java.io.File;
 
+import junit.framework.Assert;
+
 import org.jboss.shrinkwrap.resolver.api.Resolvers;
 import org.jboss.shrinkwrap.resolver.api.maven.Maven;
 import org.jboss.shrinkwrap.resolver.api.maven.MavenResolverSystem;
@@ -192,6 +194,25 @@ public class PomDependenciesUnitTestCase {
         ValidationUtil.fromDependencyTree(new File("src/test/resources/dependency-trees/test-child.tree"), false,
                 ScopeType.COMPILE, ScopeType.RUNTIME).validate(files);
 
+    }
+    
+    /**
+     * Tests resolution of dependencies for a POM file with parent on local file system, 
+     * via test-scoped dep on a depchain POM
+     *
+     * SHRINKRES-123
+     */
+    @Test
+    public void pomBasedDependenciesImportScopeInDepMgmt() {
+
+        final File[] files = Maven.resolver().loadPomFromFile("target/poms/test-testdeps-via-bom-and-depchain.xml")
+            .importRuntimeDependencies().as(File.class);
+        
+        for(final File file: files){
+            System.out.println(file.getName());
+        }
+        
+        Assert.assertEquals("No dependencies should be returned", 0, files.length);
     }
 
     /**
